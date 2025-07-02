@@ -23,21 +23,17 @@ class AppointmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('clinic_id')
-                    ->relationship('clinic', 'name')
+                Forms\Components\Select::make('patient_id')
+                    ->relationship('patient', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('patient_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\DateTimePicker::make('appointment_date')
                     ->required(),
                 Forms\Components\TextInput::make('appointment_time')
                     ->required(),
                 Forms\Components\TextInput::make('appointment_number')
                     ->required(),
+                Forms\Components\Hidden::make('user_id')
+                    ->default(fn () => auth()-> user()->id),
             ]);
     }
 
@@ -46,12 +42,12 @@ class AppointmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('clinic.name')
-                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Doctor')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('patient_id')
+                Tables\Columns\TextColumn::make('patient.name')
+                    ->label('Patient')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('appointment_date')
@@ -60,14 +56,6 @@ class AppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('appointment_time'),
                 Tables\Columns\TextColumn::make('appointment_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -93,8 +81,8 @@ class AppointmentResource extends Resource
     {
         return [
             'index' => Pages\ListAppointments::route('/'),
-            'create' => Pages\CreateAppointment::route('/create'),
-            'edit' => Pages\EditAppointment::route('/{record}/edit'),
+            // 'create' => Pages\CreateAppointment::route('/create'),
+            // 'edit' => Pages\EditAppointment::route('/{record}/edit'),
         ];
     }
 }
