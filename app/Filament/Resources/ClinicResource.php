@@ -42,14 +42,6 @@ class ClinicResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -75,8 +67,8 @@ class ClinicResource extends Resource
     {
         return [
             'index' => Pages\ListClinics::route('/'),
-            'create' => Pages\CreateClinic::route('/create'),
-            'edit' => Pages\EditClinic::route('/{record}/edit'),
+            // 'create' => Pages\CreateClinic::route('/create'),
+            // 'edit' => Pages\EditClinic::route('/{record}/edit'),
         ];
     }
 }
