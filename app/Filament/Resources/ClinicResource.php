@@ -8,6 +8,7 @@ use App\Models\Clinic;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,8 @@ class ClinicResource extends Resource
     protected static ?string $model = Clinic::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static bool $isScopedToTenant = false;
 
     public static function form(Form $form): Form
     {
@@ -47,6 +50,23 @@ class ClinicResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('addUsers')
+                    ->icon('heroicon-o-user-plus')
+                    ->form(function () {
+                        return [
+                            Forms\Components\Select::make('selecteduser')
+                                ->options(User::pluck('name', 'id')->toArray())
+                                ->multiple()
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                        ];
+                    })
+                    ->action(function (Clinic $record, array $data) {
+                        $selectedUsers = $data['selecteduser'];
+
+                        $record->users()->syncWithoutDetaching($selectedUsers);
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
