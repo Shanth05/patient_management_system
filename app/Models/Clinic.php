@@ -18,7 +18,7 @@ class Clinic extends Model
 
     public function patients():HasMany
     {
-        return $this->hasMany(Patient::class, 'clinic_patient');
+        return $this->hasMany(Patient::class, 'clinic_id');
     }
 
     public function appointments():HasMany
