@@ -19,6 +19,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $tenantOwnershipRelationshipName = 'clinics';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -28,7 +30,6 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(),
@@ -43,17 +44,6 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -79,8 +69,8 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            // 'create' => Pages\CreateUser::route('/create'),
+            // 'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }
