@@ -4,11 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasTenants;
+use Filament\Panel;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -62,5 +67,15 @@ class User extends Authenticatable
     public function clinics():BelongsToMany
     {
         return $this->belongsToMany(Clinic::class, 'clinic_user');
+    }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->clinics;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->clinics()->whereKey($tenant)->exists();
     }
 }
