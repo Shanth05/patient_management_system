@@ -23,9 +23,6 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('clinic_id')
-                    ->relationship('clinic', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
@@ -42,7 +39,6 @@ class PatientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('clinic.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -53,14 +49,6 @@ class PatientResource extends Resource
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -86,8 +74,8 @@ class PatientResource extends Resource
     {
         return [
             'index' => Pages\ListPatients::route('/'),
-            'create' => Pages\CreatePatient::route('/create'),
-            'edit' => Pages\EditPatient::route('/{record}/edit'),
+            // 'create' => Pages\CreatePatient::route('/create'),
+            // 'edit' => Pages\EditPatient::route('/{record}/edit'),
         ];
     }
 }
