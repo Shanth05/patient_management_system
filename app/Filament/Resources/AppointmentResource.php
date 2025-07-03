@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,16 +25,17 @@ class AppointmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('patient_id')
-                    ->relationship('patient', 'name')
+                    ->relationship('patient', 'name', modifyQueryUsing: fn (Builder $query) => 
+                    $query->whereBelongsTo(Filament::getTenant()))
                     ->required(),
-                Forms\Components\DateTimePicker::make('appointment_date')
+                Forms\Components\DatePicker::make('appointment_date')
                     ->required(),
-                Forms\Components\TextInput::make('appointment_time')
+                Forms\Components\TimePicker::make('appointment_time')
                     ->required(),
                 Forms\Components\TextInput::make('appointment_number')
                     ->required(),
                 Forms\Components\Hidden::make('user_id')
-                    ->default(fn () => auth()-> user()->id),
+                    ->default(fn () => \Illuminate\Support\Facades\Auth::user()?->id),
             ]);
     }
 
