@@ -22,6 +22,11 @@ class ClinicResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
+    public static function canAccess (): bool
+    {
+        return auth()->user()->id ==1;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
