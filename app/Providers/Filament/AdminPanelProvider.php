@@ -54,7 +54,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->tenant(Clinic::class, 'slug');
+            ]);
+            // ->tenant(Clinic::class, 'slug');
     }
 }
