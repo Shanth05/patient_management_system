@@ -24,5 +24,12 @@ Build a SaaS-style app where clinics manage their patients securely and independ
 - Tenant login (clinic admins)
 - Clinic-specific patient management
 - Scoped admin panels per clinic
+## 📸 Screenshots
+
+### 🔹 Clinic Dashboard
+![Dashboard](public/pms.png)
+
+### 🔹 Patient Management View
+![Patients](public/pms1.png)
 
 ---
